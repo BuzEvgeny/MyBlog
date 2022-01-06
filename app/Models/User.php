@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+//use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+//use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends \TCG\Voyager\Models\User
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $table = 'users';
+    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.
@@ -40,5 +44,21 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'id'=> 'integer',
+        'email'=> 'string',
+        'password'=> 'string',
+        'is_admin'=> 'boolean',
+        'remember_token'=> 'string',
+        'created_at'=> 'datetime',
+        'updated_at'=> 'datetime',
     ];
+    protected $dates = [
+        'created_at',
+        'updated_at'
+    ];
+
+    public function setPasswordAttribute($password){
+        $this->attributes['password'] = Hash::make($password);
+    }
+
 }
