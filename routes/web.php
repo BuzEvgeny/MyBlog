@@ -1,11 +1,13 @@
 <?php
 
 
+use App\Http\Controllers\ArticlesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use TCG\Voyager\Voyager;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,23 +20,27 @@ use TCG\Voyager\Voyager;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::group(['middleware' => 'guest'], function (){
-    Route::get('/register', function(){
-        return view('auth.registration');
-    });
-});
+Route::get('/', [ArticlesController::class,'index']);
+
+//Route::group(['middleware' => 'guest'], function (){
+//    Route::get('/register', function(){
+//        return view('auth.registration');
+//    });
+//});
+
+Route::view('/article/{id}/{slug}.html',[ArticlesController::class,'showArticle'])->where('id','\d+')->name('show_article');
 
 
-
-
-Route::view('/home','home')->name('home');
+//Route::view('/home','home')->name('home');
 
 
 Route::name('user.') ->group(function (){
     Route::view('/private','private')->middleware('auth')->name('private');
+    /** Articles */
+    Route::get('/private/post/all', [ArticlesController::class,'showAll'])->name('show_all');
+    Route::post('/private/post/create', [ArticlesController::class,'createPost'])->name('create_post');
+    Route::post('/private/post/update/{id}', [ArticlesController::class,'updatePost'])->name('update_post');
+
 
     Route::get('/login', function (){
         if (Auth::check()){
