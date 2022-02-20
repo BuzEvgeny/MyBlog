@@ -1,21 +1,29 @@
 @extends('layouts.app')
+@section('logout')
+    <a class="btn btn-sm btn-outline-secondary" href="{{route('user.logout')}}">Logout</a>
+@endsection
 @section('content')
     <h3 class="pb-4 mb-4 fst-italic border-bottom">
-        My posts
+        My articles
     </h3>
-    <article class="blog-post">
-        <h2 class="blog-post-title">New feature</h2>
-        <p class="blog-post-meta">December 14, 2020 by <a href="#">Chris</a></p>
+    @foreach($articles as $article)
+        <div class="post-preview">
+            <a href="{{ route('user.get_article', ['id' => $article->id]) }}">
+                <h4 class="blog-post-title">{{ $article -> title }}</h4>
+            </a>
+                <p class="blog-post-meta">{{ $article -> created_at ->format('d-m-y H:i') }} by <a href="#">{{ $article -> author }}</a></p>
+                <p class="post-subtitle" style="font-style: italic; font-size: 1.2rem;">{!! $article -> short_text !!}</p>
+                <hr>
+                <br>
 
-        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-        <ul>
-            <li>First list item</li>
-            <li>Second list item with a longer description</li>
-            <li>Third list item to close it out</li>
-        </ul>
-        <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
-    </article>
+
+        </div>
+    @endforeach
+    <br>
+    <a class="btn btn-outline-primary" href="{{route('user.add_article')}}">Add Article</a>
+    <br><br>
 @endsection
 @section('aside')
-    @parent
+{{--    @parent--}}
 @endsection
+

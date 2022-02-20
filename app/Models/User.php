@@ -61,4 +61,9 @@ class User extends \TCG\Voyager\Models\User
         $this->attributes['password'] = Hash::make($password);
     }
 
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
+
 }

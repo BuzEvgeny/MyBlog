@@ -13,7 +13,7 @@ class RegisterController extends Controller
 {
     public function save(Request $request){
         if (Auth::check()){
-            return redirect(route('user.private'));
+            return redirect(route('user.show_all'));
         }
         $validateFields = $request->validate([
             'email' =>'required|email',
@@ -29,9 +29,9 @@ class RegisterController extends Controller
         $user = User::create($validateFields);
         if($user){
             Auth::login($user);
-            return redirect(route('user.private'));
+            return redirect(route('user.show_all'));
         }
-        return redirect(route('user.private'))->withErrors([
+        return redirect(route('user.show_all'))->withErrors([
             'formError' => 'Произошла ошибка при сохранении пользователя'
         ]);
 

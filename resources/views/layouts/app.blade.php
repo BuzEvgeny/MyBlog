@@ -17,6 +17,7 @@
         .blog-header-logo:hover {
             text-decoration: none;
         }
+
         .blog-footer {
             padding: 2.5rem 0;
             color: #727272;
@@ -35,11 +36,9 @@
 </div>
 <main class="container">
     <div class="row g-5">
+
         <div class="col-md-8">
-            <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                All posts
-            </h3>
-            @yield('content')
+             @yield('content')
         </div>
         <div class="col-md-4">
             <div class="position-sticky" style="top: 2rem;">
@@ -47,6 +46,7 @@
             </div>
         </div>
     </div>
+
 </main>
 <footer class="blog-footer">
 @include('inc.footer')
